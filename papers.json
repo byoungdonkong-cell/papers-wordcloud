@@ -16,5 +16,47 @@
     "url": "https://pubs.rsc.org/en/content/articlehtml/2025/nr/d5nr00656b",
     "pdf": "./pdf/paper03.pdf",
     "text": ""
+  },
+  {
+    "title": "Ensemble Monte Carlo transport studies of zinc-blende cuprous halides",
+    "url": "https://pubs.aip.org/aip/jap/article/136/17/175704/3319155",
+    "pdf": "./pdf/paper04.pdf",
+    "text": ""
+  },
+  {
+    "title": "Field emission control by work function modulation in graphene edge cathodes",
+    "url": "https://pubs.aip.org/aip/jap/article/136/6/064501/3307365",
+    "pdf": "./pdf/paper05.pdf",
+    "text": ""
+  },
+  {
+    "title": "Enhancing Radio Frequency Performance of Graphene Field-Effect Transistors through Machine-Learning-Based Physical Prediction and Optimization",
+    "url": "https://pubs.acs.org/doi/full/10.1021/acsaelm.4c00236",
+    "pdf": "./pdf/paper06.pdf",
+    "text": ""
+  },
+  {
+    "title": "Analytic bond order potential for indium gallium zinc oxide",
+    "url": "https://pubs.rsc.org/en/content/articlehtml/2023/tc/d3tc00753g",
+    "pdf": "./pdf/paper07.pdf",
+    "text": ""
+  },
+  {
+    "title": "mm-band surface acoustic wave devices utilizing two-dimensional boron nitride",
+    "url": "https://www.nature.com/articles/s41598-022-24852-9",
+    "pdf": "./pdf/paper08.pdf",
+    "text": ""
+  },
+  {
+    "title": "Tunable optical property and zero-field splitting of transition metal adatom-graphene quantum dot systems",
+    "url": "https://pubs.rsc.org/en/content/articlehtml/2021/tc/d1tc02545g",
+    "pdf": "./pdf/paper09.pdf",
+    "text": ""
+  },
+  {
+    "title": "Disorder Originated Unusual Mobility in Crystalline InGaZnO4",
+    "url": "https://ieeexplore.ieee.org/abstract/document/9072111",
+    "pdf": "./pdf/paper10.pdf",
+    "text": ""
   }
 ]
