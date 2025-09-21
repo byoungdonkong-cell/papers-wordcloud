@@ -3,39 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Word Cloud — 20 Papers</title>
+  <title>Interactive Word Cloud — 20 Papers (Locked + Acronyms)</title>
 
-  <!-- Try local pdf.js first -->
+  <!-- Prefer local pdf.js; fall back to CDN if missing -->
   <script>
     (function loadLocalPdfJs() {
       var s = document.createElement('script');
       s.src = 'vendor/pdfjs/pdf.min.js';
-      s.onload = function() {
+      s.onload = function () {
         if (window.pdfjsLib) {
           pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdfjs/pdf.worker.min.js';
           window.__pdfjs_ready__ = true;
         }
       };
-      s.onerror = function() {
-        // Fallback to CDN if local not found
+      s.onerror = function () {
         var s1 = document.createElement('script');
-        s1.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.3.136/build/pdf.min.js';
-        s1.onload = function() {
+        s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        s1.onload = function () {
           if (window.pdfjsLib) {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.3.136/build/pdf.worker.min.js';
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
             window.__pdfjs_ready__ = true;
           }
-        };
-        s1.onerror = function() {
-          var s2 = document.createElement('script');
-          s2.src = 'https://unpkg.com/pdfjs-dist@4.3.136/build/pdf.min.js';
-          s2.onload = function() {
-            if (window.pdfjsLib) {
-              pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.3.136/build/pdf.worker.min.js';
-              window.__pdfjs_ready__ = true;
-            }
-          };
-          document.head.appendChild(s2);
         };
         document.head.appendChild(s1);
       };
@@ -57,17 +45,12 @@
     .card{background:linear-gradient(180deg,#0e1730 0%,var(--card) 100%);border:1px solid #22325e;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
     .grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
     .legend{font-size:12px;color:var(--muted)}
-    #cloudCard{min-height:460px;display:grid;place-items:center}
+    #cloudCard{min-height:540px;display:grid;place-items:center}
     #cloud{width:100%;height:100%}
     .right{display:grid;gap:10px;align-content:start}
     .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 8px;border:1px solid #2a3d72;border-radius:9999px;color:var(--muted)}
     .paper{padding:10px;border:1px dashed #2a3d72;border-radius:12px}
     .paper a{color:var(--accent2);text-decoration:none}
-    .row{display:flex;gap:8px;align-items:center}
-    input[type="number"],input[type="text"]{background:#0c1430;border:1px solid #2a3d72;color:var(--ink);border-radius:10px;padding:8px 10px;width:100%}
-    button{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b1020;border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;transition:transform .05s ease,filter .2s ease}
-    button:hover{filter:saturate(1.1) brightness(1.05)}
-    button:active{transform:translateY(1px)}
     .progress{font-size:12px;color:var(--muted);line-height:1.4;max-height:160px;overflow:auto;background:#0c1430;border:1px solid #2a3d72;border-radius:10px;padding:8px}
     .error{font-size:12px;color:#ffb3b3;line-height:1.4;white-space:pre-wrap;background:#2a1420;border:1px solid #7a2a3a;border-radius:10px;padding:8px}
   </style>
@@ -78,18 +61,12 @@
       <div class="logo">WC</div>
       <div>
         <h2 style="margin:0">Interactive Word Cloud</h2>
-        <div class="legend">Auto-loads up to 20 papers from <code>papers.json</code>. Click a word to see matching papers.</div>
+        <div class="legend">Locked params: <strong>min len=4</strong>, <strong>max words=200</strong>, <strong>size=5</strong>. Acronyms like <em>Graphene (Gr)</em> are auto-mapped.</div>
       </div>
     </div>
 
     <div class="grid">
       <div class="card">
-        <div class="row" style="margin-bottom:10px">
-          <div style="flex:1"><span class="legend">Min word length</span><input id="minLen" type="number" value="3" min="1"/></div>
-          <div style="flex:1"><span class="legend">Max words</span><input id="topK" type="number" value="150" min="20"/></div>
-          <div style="flex:1"><span class="legend">Size scale (1–5)</span><input id="scale" type="number" value="3" min="1" max="5" step="0.5"/></div>
-          <div><button id="btnReload">Reload</button></div>
-        </div>
         <div id="cloudCard" class="card" style="margin:0">
           <svg id="cloud"></svg>
         </div>
@@ -98,32 +75,83 @@
       </div>
 
       <div class="card right">
-        <div class="row">
-          <div class="tag" id="currentWordTag" style="display:none"></div>
-          <input id="filter" type="text" placeholder="Filter titles… (after click)"/>
-        </div>
+        <div class="tag" id="currentWordTag" style="display:none"></div>
+        <input id="filter" type="text" placeholder="Filter titles…"/>
         <div id="papersList"></div>
-        <div class="legend">Tip: Click a word to sort papers by frequency of that word. Filter refines the right-hand list.</div>
+        <div class="legend">Tip: a default word is auto-selected. Acronyms are folded into their full terms where unambiguous.</div>
       </div>
     </div>
 
-    <div class="legend" style="margin-top:10px">Everything runs in the browser. For best results, keep PDFs under <code>/pdf/</code> on the same GitHub Pages origin.</div>
+    <div class="legend" style="margin-top:10px">Host PDFs under <code>/pdf/</code> on the same origin for best performance.</div>
   </div>
 
   <script>
+    // ===== Locked parameters =====
+    const MIN_LEN = 4;
+    const MAX_WORDS = 200;
+    const SIZE = 5;
+
+    // ===== Acronym handling =====
+    const ACR_SCAN_CHARS = 4000; // scan the first N chars of each paper for definitions
+    function extractAcronymsDefs(text){
+      const head = (text||'').slice(0, ACR_SCAN_CHARS);
+      const defs = [];
+      // Pattern 1: Full Term (ACR)
+      const re1 = /([A-Z][A-Za-z][A-Za-z\-]*(?:\s+[A-Za-z][A-Za-z\-]*){0,6})\s*\(([A-Z][A-Za-z0-9]{1,6}s?)\)/g;
+      let m;
+      while ((m = re1.exec(head))){
+        const full = m[1].trim();
+        const acr = m[2].trim();
+        if (acr.length>=2 && /[A-Z]/.test(acr) && !/^\d+$/.test(acr)) defs.push({full, acr});
+      }
+      // Pattern 2: ACR (Full Term)
+      const re2 = /\b([A-Z]{2,6}s?)\s*\(([A-Z][A-Za-z][A-Za-z\-]*(?:\s+[A-Za-z][A-Za-z\-]*){0,6})\)/g;
+      while ((m = re2.exec(head))){
+        const acr = m[1].trim();
+        const full = m[2].trim();
+        if (acr.length>=2 && /[A-Z]/.test(acr)) defs.push({full, acr});
+      }
+      return defs;
+    }
+    function canonTerm(s){ return s.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z\-]/g,'').replace(/-+/g,'-'); }
+    function buildAcronymConsensus(perPaperDefs){
+      const mapSet = new Map(); // acr -> Set(full)
+      for (const mp of perPaperDefs){
+        for (const [acr, full] of Object.entries(mp)){
+          if (!mapSet.has(acr)) mapSet.set(acr, new Set());
+          mapSet.get(acr).add(full);
+        }
+      }
+      const consensus = new Map();
+      for (const [acr, set] of mapSet.entries()){
+        if (set.size === 1) consensus.set(acr, [...set][0]);
+      }
+      return consensus;
+    }
+    let __ACR_CONSENSUS__ = new Map();
+    let __FULL_TO_ACR__ = new Map();
+
     // ------- stopwords & tokenization -------
     const STOPWORDS = new Set(("a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves".split(',').map(s=>s.trim())));
     function normalizeWord(w){const cleaned=w.toLowerCase().replace(/[\u2018\u2019\u201C\u201D]/g,"'").replace(/[^a-z\-]+/g,'');return cleaned.endsWith('s')&&cleaned.length>3?cleaned.slice(0,-1):cleaned;}
-    function tokenize(text,minLen){minLen=minLen||3;const words=text.split(/\s+/g).map(normalizeWord).filter(Boolean);return words.filter(w=>w.length>=minLen && !STOPWORDS.has(w));}
+    function tokenize(text,minLen){
+      minLen=minLen||MIN_LEN;
+      const words=text.split(/\s+/g).map(normalizeWord).filter(Boolean).map(w=>{
+        const upper = w.toUpperCase();
+        if (__ACR_CONSENSUS__.has(upper)) return __ACR_CONSENSUS__.get(upper);
+        return w;
+      });
+      return words.filter(w=>w.length>=minLen && !STOPWORDS.has(w));
+    }
     function countGlobalFreq(papers,minLen){const freq=new Map();for(const p of papers){for(const t of tokenize(p.text||'',minLen)){freq.set(t,(freq.get(t)||0)+1);}}return freq;}
     function countPerPaper(papers,word){const re=new RegExp('(^|[^a-z])'+word+'(?![a-z])','gi');return papers.map((p,idx)=>({idx,count:((p.text||'').toLowerCase().match(re)||[]).length}));}
     function topEntries(map,k){return Array.from(map.entries()).sort((a,b)=>b[1]-a[1]).slice(0,k);}
 
     // ------- rendering -------
     const svg=d3.select('#cloud'); const g=svg.append('g');
-    function renderCloud(data,{scale=3,onClick}){
+    function renderCloud(data,{scale=SIZE,onClick}){
       const box=document.querySelector('#cloudCard').getBoundingClientRect();
-      const width=Math.floor(box.width-24); const height=Math.max(460,Math.floor(box.height-24));
+      const width=Math.floor(box.width-24); const height=Math.max(540,Math.floor(box.height-24));
       svg.attr('viewBox','0 0 '+width+' '+height).attr('width','100%').attr('height',height);
       g.selectAll('*').remove();
       const maxFreq=d3.max(data,d=>d.value)||1;
@@ -149,25 +177,26 @@
 
     function showPapersList(word, globalCount, papers){
       const per=countPerPaper(papers,word).filter(d=>d.count>0).sort((a,b)=>b.count-a.count);
-      $currentWordTag.style.display='inline-flex'; $currentWordTag.textContent=word+' · total '+globalCount;
+      const aliasSet = __FULL_TO_ACR__.get(word);
+      const alias = aliasSet ? ` (aka ${[...aliasSet].join(', ')})` : '';
+      $currentWordTag.style.display='inline-flex'; $currentWordTag.textContent=word + alias + ' · total ' + globalCount;
       const filterVal = ($filter.value||'').toLowerCase();
       const html = per.map(({idx,count})=>{
         const p=papers[idx];
         if(filterVal && !(p.title||'').toLowerCase().includes(filterVal)) return '';
         const pdfLink=p.pdf?`<a href="${p.pdf}" target="_blank" rel="noopener">PDF</a>`:'';
         const urlLink=p.url?`<a href="${p.url}" target="_blank" rel="noopener">Link</a>`:'';
-        return `<div class="paper"><div style="font-weight:700;">${p.title||'Untitled'}</div><div class="legend">matches: ${count}</div><div>${[pdfLink,urlLink].filter(Boolean).join(' · ')}</div></div>`;
+        return `<div class=\"paper\"><div style=\"font-weight:700;\">${p.title||'Untitled'}</div><div class=\"legend\">matches: ${count}</div><div>${[pdfLink,urlLink].filter(Boolean).join(' · ')}</div></div>`;
       }).join('');
       $papersList.innerHTML = html || '<div class="legend">No matching papers for this filter.</div>';
     }
 
     function rebuildCloud(papers){
-      const minLen=Math.max(1,parseInt(document.getElementById('minLen').value||'3',10));
-      const topK=Math.max(20,parseInt(document.getElementById('topK').value||'150',10));
-      const scale=Math.max(1,Math.min(5,parseFloat(document.getElementById('scale').value||'3')));
-      const freq=countGlobalFreq(papers,minLen); const words=topEntries(freq,topK).map(([key,value])=>({key,value}));
+      const freq=countGlobalFreq(papers, MIN_LEN);
+      const words=topEntries(freq, MAX_WORDS).map(([key,value])=>({key,value}));
       if(words.length===0){showError('No words found.');return;} $errors.style.display='none';
-      renderCloud(words,{scale,onClick:(word,total)=>showPapersList(word,total,papers)});
+      renderCloud(words,{scale: SIZE,onClick:(word,total)=>showPapersList(word,total,papers)});
+      if (words.length>0) { const [topWord, total] = words[0]; showPapersList(topWord, total, papers); }
     }
 
     async function extractTextFromPdfUrl(url){
@@ -189,7 +218,8 @@
       }
       const chosen = (Array.isArray(list) ? list : []).slice(0,20);
       if (chosen.length === 0) { showError('papers.json is empty.'); return; }
-      const papers=[];
+
+      const papers=[]; const perPaperDefs = [];
       const needsPdf = chosen.some(p => !p.text && p.pdf);
       const waitForPdfJs = async () => {
         if (!needsPdf) return;
@@ -204,31 +234,37 @@
       for (let i=0;i<chosen.length;i++){
         const item=chosen[i]; const title=item.title||('Paper '+(i+1));
         try{
+          let text;
           if(item.text && item.text.trim().length>50){
-            papers.push({ title, url:item.url||'', pdf:item.pdf||'', text:item.text });
-            log(`✔ [${i+1}/${chosen.length}] ${title} (pre-extracted)`);
+            text = item.text; log(`✔ [${i+1}/${chosen.length}] ${title} (pre-extracted)`);
           } else if(item.pdf){
             log(`• [${i+1}/${chosen.length}] extracting: ${title}`);
-            const text = await extractTextFromPdfUrl(item.pdf);
-            papers.push({ title, url:item.url||'', pdf:item.pdf, text });
+            text = await extractTextFromPdfUrl(item.pdf);
             log(`  ↳ done (${text.length.toLocaleString()} chars)`);
           } else {
             log(`! [${i+1}/${chosen.length}] skipped (no text/pdf)`);
           }
-        } catch(e){
-          log(`× [${i+1}/${chosen.length}] failed: ${title} — ${e.message}`);
-        }
+          const defs = extractAcronymsDefs(text||'');
+          const mp = {};
+          for (const d of defs){ const acrU=d.acr.toUpperCase(); const fullK=canonTerm(d.full); if (acrU && fullK) mp[acrU]=fullK; }
+          perPaperDefs.push(mp);
+          papers.push({ title, url:item.url||'', pdf:item.pdf||'', text });
+        } catch(e){ log(`× [${i+1}/${chosen.length}] failed: ${title} — ${e.message}`); }
       }
       if (papers.length===0){ showError('Could not load any papers. If PDFs are on another domain without CORS, include a "text" field in papers.json or host PDFs under /pdf/.'); return; }
+
+      // Build consensus acronym map across all papers (only unambiguous mappings)
+      __ACR_CONSENSUS__ = buildAcronymConsensus(perPaperDefs);
+      __FULL_TO_ACR__ = new Map();
+      for (const [acr, full] of __ACR_CONSENSUS__.entries()){
+        if (!__FULL_TO_ACR__.has(full)) __FULL_TO_ACR__.set(full, new Set());
+        __FULL_TO_ACR__.get(full).add(acr);
+      }
+
       log('Building cloud…');
       rebuildCloud(papers);
-      // Default list
-      $currentWordTag.style.display='none';
-      $papersList.innerHTML = papers.map(p=>`<div class="paper"><div style="font-weight:700;">${p.title||'Untitled'}</div><div>${[p.pdf?`<a href='${p.pdf}' target='_blank' rel='noopener'>PDF</a>`:'', p.url?`<a href='${p.url}' target='_blank' rel='noopener'>Link</a>`:''].filter(Boolean).join(' · ')}</div></div>`).join('');
     }
 
-    document.getElementById('btnReload').addEventListener('click', loadPapersJson);
-    window.addEventListener('resize', ()=> { clearTimeout(window.__rtimer); window.__rtimer = setTimeout(()=> { /* re-render on resize by reloading data */ }, 200); });
     document.addEventListener('DOMContentLoaded', loadPapersJson);
   </script>
 </body>
