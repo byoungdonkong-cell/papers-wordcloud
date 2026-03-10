@@ -1,86 +1,104 @@
 [
   {
+    "title": "Interfacial charge and thermal transport in diamond field-effect transistors with c-BN and Al2O3 gate dielectrics",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0925963526002219",
+    "pdf": "./pdf/paper01.pdf",
+    "text": ""
+  },
+  {
+    "title": "Anisotropic diffusion of hydrogen dopants in crystalline InAlZnO",
+    "url": "https://pubs.aip.org/aip/jap/article/139/2/023101/3377074",
+    "pdf": "./pdf/paper02.pdf",
+    "text": ""
+  },
+  {
+    "title": "Ultralow-Power Real-Time On-Chip Thermal Prediction via Finite Element Method–Machine Learning Codesign and Field-Programmable Gate Array Deployment",
+    "url": "https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/aisy.202501108",
+    "pdf": "./pdf/paper03.pdf",
+    "text": ""
+  },
+  {
     "title": "Field Emission Control via Work Function Modulation in Semimetallic Graphene Edge Cathodes",
     "url": "https://onlinelibrary.wiley.com/doi/10.1002/smll.202511742",
-    "pdf": "./pdf/paper01.pdf",
+    "pdf": "./pdf/paper04.pdf",
     "text": ""
   },
   {
     "title": "Scalable synthesis of spatially confined Ge quantum dots with tunable quantum confinement",
     "url": "https://pubs.rsc.org/en/content/articlehtml/2026/nr/d5nr04252f",
-    "pdf": "./pdf/paper02.pdf",
+    "pdf": "./pdf/paper05.pdf",
     "text": ""
   },
   {
     "title": "Gate Field-Induced Dynamic Schottky Barrier Height Reduction in Bilayer MoS2 for Sub-60 mV/dec Schottky Barrier FETs",
     "url": "https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/aelm.202500502",
-    "pdf": "./pdf/paper03.pdf",
+    "pdf": "./pdf/paper06.pdf",
     "text": ""
   },
   {
     "title": "Elastic Constants of β-(AlxGa1−x)2O3 for Heterogeneous Interface Applications",
     "url": "https://ieeexplore.ieee.org/abstract/document/11181103",
-    "pdf": "./pdf/paper04.pdf",
+    "pdf": "./pdf/paper07.pdf",
     "text": ""
   },
   {
     "title": "Reactive Bond-Order Potential for Modeling SiC Oxidation and Annealing with Interface Defect Dynamics",
     "url": "https://pubs.acs.org/doi/full/10.1021/acs.jpcc.5c03173",
-    "pdf": "./pdf/paper05.pdf",
+    "pdf": "./pdf/paper08.pdf",
     "text": ""
   },
   {
     "title": "Acoustic Wave Engineering of Lamb Wave Resonators with 2D van der Waals Floating Electrode",
     "url": "https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/admi.202500502",
-    "pdf": "./pdf/paper06.pdf",
+    "pdf": "./pdf/paper09.pdf",
     "text": ""
   },
   {
     "title": "Nano vacuum devices utilizing two-dimensional semiconductors and their potential",
     "url": "https://pubs.rsc.org/en/content/articlehtml/2025/nr/d5nr00656b",
-    "pdf": "./pdf/paper07.pdf",
+    "pdf": "./pdf/paper10.pdf",
     "text": ""
   },
   {
     "title": "Ensemble Monte Carlo transport studies of zinc-blende cuprous halides",
     "url": "https://pubs.aip.org/aip/jap/article/136/17/175704/3319155",
-    "pdf": "./pdf/paper08.pdf",
+    "pdf": "./pdf/paper11.pdf",
     "text": ""
   },
   {
     "title": "Field emission control by work function modulation in graphene edge cathodes",
     "url": "https://pubs.aip.org/aip/jap/article/136/6/064501/3307365",
-    "pdf": "./pdf/paper09.pdf",
+    "pdf": "./pdf/paper12.pdf",
     "text": ""
   },
   {
     "title": "Enhancing Radio Frequency Performance of Graphene Field-Effect Transistors through Machine-Learning-Based Physical Prediction and Optimization",
     "url": "https://pubs.acs.org/doi/full/10.1021/acsaelm.4c00236",
-    "pdf": "./pdf/paper10.pdf",
+    "pdf": "./pdf/paper13.pdf",
     "text": ""
   },
   {
     "title": "Analytic bond order potential for indium gallium zinc oxide",
     "url": "https://pubs.rsc.org/en/content/articlehtml/2023/tc/d3tc00753g",
-    "pdf": "./pdf/paper11.pdf",
+    "pdf": "./pdf/paper14.pdf",
     "text": ""
   },
   {
     "title": "mm-band surface acoustic wave devices utilizing two-dimensional boron nitride",
     "url": "https://www.nature.com/articles/s41598-022-24852-9",
-    "pdf": "./pdf/paper12.pdf",
+    "pdf": "./pdf/paper15.pdf",
     "text": ""
   },
   {
     "title": "Tunable optical property and zero-field splitting of transition metal adatom-graphene quantum dot systems",
     "url": "https://pubs.rsc.org/en/content/articlehtml/2021/tc/d1tc02545g",
-    "pdf": "./pdf/paper13.pdf",
+    "pdf": "./pdf/paper16.pdf",
     "text": ""
   },
   {
     "title": "Disorder Originated Unusual Mobility in Crystalline InGaZnO4",
     "url": "https://ieeexplore.ieee.org/abstract/document/9072111",
-    "pdf": "./pdf/paper14.pdf",
+    "pdf": "./pdf/paper17.pdf",
     "text": ""
   }
 ]
